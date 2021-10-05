@@ -37,10 +37,12 @@ router.post('/', function (req, res) {
    
     var data=req.body
     db.query("insert into employees_basic_details values(?,?,?,?,?,?,?,?,?,?,?,?)",[null,data.First_Name,data.Middle_Name,data.Last_Name,data.email,data.Gender,data.Nationality,data.State,data.District,data.Postal_Code,data.Qualification,data.employee_site_no,],function(err,result){
-        if(err){
+      try{ if(err){
             throw err
         }
         res.send({message:"saved"})
+    }
+    catch {res.status(500).send({message:"failure"})}
     })
 });
 router.put('/:id',function(req,res){

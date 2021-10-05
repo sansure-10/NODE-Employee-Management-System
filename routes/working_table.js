@@ -31,9 +31,10 @@ router.post('/', function (req, res) {
 
     var data = req.body
     db.query("insert into working_table (emp_id,From_date,monthly_sallary,to_date,employe_site_no)values(?,?,?,?,?)", [data.emp_id,  data.From_date, data.monthly_sallary,data.to_date, data.employe_site_no], function (err, result) {
-        if (err) {
+       try{ if (err) 
             throw err
-        }
+       
+      
         db.query("insert into work_history values (?,?,?,?,?,?)", [null, data.emp_id,  data.From_date, data.to_date, data.monthly_sallary, data.employe_site_no], function (err, result) {
             if (err) {
                 throw err
@@ -41,8 +42,8 @@ router.post('/', function (req, res) {
             
     
         })
-
-        res.send("data saved sucessfully")
+    }
+        catch {res.status(500).send({message:"failure"})}
     })
 });
 router.put('/:emp_id', function (req, res) {
@@ -52,6 +53,7 @@ router.put('/:emp_id', function (req, res) {
         if (err) {
             throw err
         }
+
         db.query("insert into work_history values (?,?,?,?,?,?)", [null, data.emp_id,  data.From_date, data.to_date, data.monthly_sallary, data.employe_site_no], function (err, result) {
             if (err) {
                 throw err
@@ -89,10 +91,13 @@ router.post('/addsite', function (req, res) {
 
     var data = req.body
     db.query("insert into site_details values (?,?)", [ data.employee_site_no,  data.site_name], function (err, result) {
-        if (err) {
+       try{ if (err) 
             throw err
-        }
+        
+    
         res.send("data saved into site")
+       }
+        catch {res.status(500).send({message:"failure"})}
 
     })
 });
